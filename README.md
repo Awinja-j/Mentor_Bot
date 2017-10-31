@@ -6,4 +6,6 @@ This Bot is built using :
 - SQlite
 - Messenger Bot
 - Flask
-And hosted on heroku
+We shall throw in a little bit of dialogflow.ai to try and predict what the user might be wanting from the bot.
+hosted on heroku
+- https://bot-production.herokuapp.com/
