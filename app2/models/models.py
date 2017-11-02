@@ -1,21 +1,22 @@
-from . import db
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 
 class Mentor(db.Model):
     __tablename__ = "mentor"
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(255))
-    contacts = db.Column(db.String(255))
+    phone_number = db.Column(db.String(255))
     stack = db.Column(db.String(255))
     stack_details = db.Column(db.String(255))
-    available = db.Column(db.Boolean, default=False)
+    available = db.Column(db.Boolean, default=True)
 
-    def __init__(self, full_name, contacts, stack, stack_details, available):
+    def __init__(self, full_name, phone_number, stack, stack_details):
         self.full_name = full_name
-        self.contacts = contacts
+        self.phone_number = phone_number
         self.stack = stack
         self.stack_details = stack_details
-        self.available = available
 
     def save(self):
         try:

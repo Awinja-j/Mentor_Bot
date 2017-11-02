@@ -1,6 +1,6 @@
 import os
 
-from app.settings import DATABASE_URL, APP_SECRET_KEY
+from app2.settings import DATABASE_URL, APP_SECRET_KEY
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 

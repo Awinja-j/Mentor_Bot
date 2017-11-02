@@ -103,3 +103,6 @@ bot/
 
 #local files and folder
 settings
+
+.idea/
+migrations
