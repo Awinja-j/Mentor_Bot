@@ -100,3 +100,6 @@ bot/
 
 # mypy
 .mypy_cache/
+
+#local files and folder
+settings
