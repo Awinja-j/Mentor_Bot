@@ -10,9 +10,7 @@ from flask import Flask
 from flask_restful import Api
 from config import config
 from app.bot.bot import MentorBot
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from app.models.models import db
 
 def create_app(config_name):
     app = Flask(__name__)
