@@ -1,15 +1,15 @@
 from flask import Flask
-from manage import app
-import config 
-import sqlite3
-from sqlalchemy import *
+from flask_sqlalchemy import SQLAlchemy
 
-db = create_engine('sqlite:///bot.db')
+from config import config
 
-# create app
+db = SQLAlchemy()
+
+
 def create_app(config_name):
     app = Flask(__name__)
-    app.config.from_object(config.ProductionConfig)
+    app.config.from_object(config[config_name])
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
     with app.app_context():
         db.create_all()
