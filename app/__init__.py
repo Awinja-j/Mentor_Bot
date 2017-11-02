@@ -9,10 +9,10 @@ sys.path.insert(0, parentdir)
 from flask import Flask
 from flask_restful import Api
 from config import config
-from app.models.models import db
 from app.bot.bot import MentorBot
+from flask_sqlalchemy import SQLAlchemy
 
-
+db = SQLAlchemy()
 
 def create_app(config_name):
     app = Flask(__name__)

@@ -7,8 +7,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-from app.models.models import db
-from app import create_app
+from app import create_app, db
 
 app = create_app('default')
 
