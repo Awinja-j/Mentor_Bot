@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_restful import Api
 from config import config
-from app2.models.models import db
-from app2.bot.bot import MentorBot
+from app.models.models import db
+from app.bot.bot import MentorBot
 
 
 
