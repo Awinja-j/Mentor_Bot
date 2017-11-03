@@ -8,15 +8,14 @@ sys.path.insert(0, parentdir)
 
 from flask import request, json, abort
 from flask_restful import Resource
-# from app2.models.models import db
-# from app import  db
 from app.models.models import Mentor
 
 
 class MentorBot(Resource):
     def get(self):
         print ("i am getting")
-        q_name = request.args.get('q', "")
+        q_name = self.clean_response()
+        # q_name = request.args.get('q', "")
         if q_name:
             mentor = Mentor.query.filter(Mentor.stack.ilike('%{}%'.format(q_name)))
             if not mentor:
@@ -58,6 +57,15 @@ class MentorBot(Resource):
             # db.session.add(mentor)
             # db.session.commit()
             return 'Welcome to Mentor bot {}, you have been added succesfully'.format(full_name), 201
+
+    def clean_response(self):
+        payload = request.get_data()
+        data = json.loads(payload)
+        for event in data:
+            if "searches" in event:
+                yield event['searches']
+
+
 
 
 
