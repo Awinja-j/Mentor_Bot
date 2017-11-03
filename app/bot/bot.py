@@ -12,8 +12,8 @@ from app.models.models import Mentor
 
 
 class MentorBot(Resource):
-    def get(self):
-        print ("i am getting")
+    def post(self):
+        print ("i am posting")
         q_name = self.clean_response()
         # q_name = request.args.get('q', "")
         if q_name:
@@ -36,27 +36,27 @@ class MentorBot(Resource):
                                   "stack_details":mentors.stack_details})
             return all_users
 
-    def post(self):
-        print("i am posting")
-        if not request.json:
-            abort(400)
-        if not request.json['phone_number']:
-            abort(400)
-
-        mentor = Mentor.query.filter_by(phone_number=request.json['phone_number']).first()
-
-        if mentor:
-            return 'Sorry, you already exist in our database', 404
-        else:
-            full_name = request.json['full_name']
-            phone_number = request.json['phone_number']
-            stack = request.json['stack']
-            stack_details = request.json['stack_details']
-            mentor = Mentor(full_name, phone_number, stack, stack_details)
-            Mentor.save(mentor)
-            # db.session.add(mentor)
-            # db.session.commit()
-            return 'Welcome to Mentor bot {}, you have been added succesfully'.format(full_name), 201
+    # def post(self):
+    #     print("i am posting")
+    #     if not request.json:
+    #         abort(400)
+    #     if not request.json['phone_number']:
+    #         abort(400)
+    #
+    #     mentor = Mentor.query.filter_by(phone_number=request.json['phone_number']).first()
+    #
+    #     if mentor:
+    #         return 'Sorry, you already exist in our database', 404
+    #     else:
+    #         full_name = request.json['full_name']
+    #         phone_number = request.json['phone_number']
+    #         stack = request.json['stack']
+    #         stack_details = request.json['stack_details']
+    #         mentor = Mentor(full_name, phone_number, stack, stack_details)
+    #         Mentor.save(mentor)
+    #         # db.session.add(mentor)
+    #         # db.session.commit()
+    #         return 'Welcome to Mentor bot {}, you have been added succesfully'.format(full_name), 201
 
     def clean_response(self):
         payload = request.get_data()
