@@ -17,9 +17,10 @@ class MentorBot(Resource):
         print ("i am posting")
         q_name = self.clean_response()
         # q_name = request.args.get('q', "")
-        print ("----q name", q_name)
+        print("----q name", q_name)
         if q_name:
-            if q_name == 'search':
+            list_keys = ['python', 'java', 'php', 'react']
+            if q_name in list_keys:
                 mentor = Mentor.query.filter(Mentor.stack.ilike('%{}%'.format(q_name)))
                 print ("------mentor", mentor)
                 if not mentor:
@@ -75,14 +76,13 @@ class MentorBot(Resource):
             return data['result']['parameters']['mentor_details']
         else:
             return "Sorry we didn't understand your query.", 404
-        
+
     def response(self, all_users):
         if len(all_users)<5:
             response = "These are the top {} mentors.".format(len(all_users)) +" "+ all_users
         else:
             response = "These are the top 5 mentors." +" " + all_users[:5]
         return response
-
 
 
 
