@@ -8,6 +8,7 @@ sys.path.insert(0, parentdir)
 
 from flask import request, json, abort
 from flask_restful import Resource
+import pprint
 from app.models.models import Mentor
 
 
@@ -16,6 +17,7 @@ class MentorBot(Resource):
         print ("i am posting")
         q_name = self.clean_response()
         # q_name = request.args.get('q', "")
+        print ("----q name", q_name)
         if q_name:
             mentor = Mentor.query.filter(Mentor.stack.ilike('%{}%'.format(q_name)))
             if not mentor:
@@ -60,10 +62,11 @@ class MentorBot(Resource):
 
     def clean_response(self):
         payload = request.get_data()
+        print("----payload", payload)
         data = json.loads(payload)
-        for event in data:
-            if "searches" in event:
-                yield event['searches']
+        print("----data", data)
+        if data['result']['action'] == '@searches':
+            return data['result']['parameters']['searches']
 
 
 
