@@ -20,14 +20,15 @@ class MentorBot(Resource):
         print ("----q name", q_name)
         if q_name:
             mentor = Mentor.query.filter(Mentor.stack.ilike('%{}%'.format(q_name)))
+            print ("------mentor", mentor)
             if not mentor:
-                return 'There is no mentor available at the moment in that stack'
+                return 'There is no mentor available at the moment in that stack', 400
             else:
                 all_users = []
                 for mentors in mentor:
                     all_users.append({"phone_number": mentors.phone_number,
                                       "full name": mentors.full_name})
-                return all_users
+                return all_users, 200
         else:
             mentor = Mentor.query.all()
             all_users = []
@@ -36,7 +37,7 @@ class MentorBot(Resource):
                                   "full name":mentors.full_name,
                                   "stack":mentors.stack,
                                   "stack_details":mentors.stack_details})
-            return all_users
+            return all_users, 200
 
     # def post(self):
     #     print("i am posting")
