@@ -79,9 +79,9 @@ class MentorBot(Resource):
 
     def response(self, all_users):
         if len(all_users)<5:
-            response = "These are the top {} mentors.".format(len(all_users)) +" "+ all_users
+            response = "These are the top {} mentors.".format(len(all_users)) ,all_users
         else:
-            response = "These are the top 5 mentors." +" " + all_users[:5]
+            response = "These are the top 5 mentors." , all_users[:5]
         return response
 
 
