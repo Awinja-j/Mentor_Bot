@@ -14,7 +14,7 @@ class Config(object):
 
 class ProductionConfig(Config):
     DEBUG = False
-
+    SQLALCHEMY_DATABASE_URI = DATABASE_URL
 
 class StagingConfig(Config):
     DEVELOPMENT = True
