@@ -18,7 +18,7 @@ class Mentor(db.Model):
     stack_details = db.Column(db.String(255))
     available = db.Column(db.Boolean, default=True)
 
-    def __init__(self, full_name, phone_number, stack, stack_details):
+    def __init__(self, full_name, phone_number, stack, stack_details=None):
         self.full_name = full_name
         self.phone_number = phone_number
         self.stack = stack

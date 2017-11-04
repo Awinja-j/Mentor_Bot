@@ -19,48 +19,50 @@ class MentorBot(Resource):
         # q_name = request.args.get('q', "")
         print ("----q name", q_name)
         if q_name:
-            mentor = Mentor.query.filter(Mentor.stack.ilike('%{}%'.format(q_name)))
-            print ("------mentor", mentor)
-            if not mentor:
-                return 'There is no mentor available at the moment in that stack', 400
-            else:
-                all_users = []
-                for mentors in mentor:
-                    all_users.append({"phone_number": mentors.phone_number,
-                                      "full name": mentors.full_name})
-                print("----all users", all_users)
-                return all_users, 200
-        else:
-            mentor = Mentor.query.all()
-            all_users = []
-            for mentors in mentor:
-                all_users.append({"phone_number":mentors.phone_number,
+            if q_name == 'search':
+                mentor = Mentor.query.filter(Mentor.stack.ilike('%{}%'.format(q_name)))
+                print ("------mentor", mentor)
+                if not mentor:
+                    return 'There is no mentor available at the moment in that stack', 400
+                else:
+                    all_users = []
+                    for mentors in mentor:
+                        all_users.append({"phone_number": mentors.phone_number,
+                                          "full name": mentors.full_name})
+                    return all_users, 200
+
+            elif type(q_name) == list:
+                if len(q_name) == 5:
+                    name = q_name[0] + " " + q_name[1]
+                    phone_number = q_name[2]
+                    stack = q_name[3]
+                    stack_details = q_name[4]
+                    check_mentor = Mentor.query.filter(Mentor.phone_number.ilike('%{}%'.format(phone_number)))
+                    if check_mentor:
+                        return "Sorry your already registered as a mentor", 200
+                    mentor= Mentor(name, phone_number, stack, stack_details)
+                    mentor.save()
+                    return "Thanks for availing yourself as a mentor", 200
+                else:
+                    name = q_name[0] + " " + q_name[1]
+                    phone_number = q_name[2]
+                    stack = q_name[3]
+                    check_mentor = Mentor.query.filter(Mentor.phone_number.ilike('%{}%'.format(phone_number)))
+                    if check_mentor:
+                        return "Sorry your already registered as a mentor", 200
+                    mentor = Mentor(name, phone_number, stack)
+                    mentor.save()
+                    return "Thanks for availing yourself as a mentor", 200
+
+        mentor = Mentor.query.all()
+        all_users = []
+        for mentors in mentor:
+            all_users.append({"phone_number":mentors.phone_number,
                                   "full name":mentors.full_name,
                                   "stack":mentors.stack,
                                   "stack_details":mentors.stack_details})
-            return all_users, 200
+        return all_users, 200
 
-    # def post(self):
-    #     print("i am posting")
-    #     if not request.json:
-    #         abort(400)
-    #     if not request.json['phone_number']:
-    #         abort(400)
-    #
-    #     mentor = Mentor.query.filter_by(phone_number=request.json['phone_number']).first()
-    #
-    #     if mentor:
-    #         return 'Sorry, you already exist in our database', 404
-    #     else:
-    #         full_name = request.json['full_name']
-    #         phone_number = request.json['phone_number']
-    #         stack = request.json['stack']
-    #         stack_details = request.json['stack_details']
-    #         mentor = Mentor(full_name, phone_number, stack, stack_details)
-    #         Mentor.save(mentor)
-    #         # db.session.add(mentor)
-    #         # db.session.commit()
-    #         return 'Welcome to Mentor bot {}, you have been added succesfully'.format(full_name), 201
 
     def clean_response(self):
         payload = request.get_data()
@@ -69,6 +71,12 @@ class MentorBot(Resource):
         print("----data", data)
         if data['result']['action'] == '@searches':
             return data['result']['parameters']['searches']
+        elif data['result']['action'] == '@mentor_details':
+            return data['result']['parameters']['mentor_details']
+        else:
+            return "Sorry we didn't understand your query.", 404
+
+
 
 
 
