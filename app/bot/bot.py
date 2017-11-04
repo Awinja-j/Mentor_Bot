@@ -28,6 +28,7 @@ class MentorBot(Resource):
                 for mentors in mentor:
                     all_users.append({"phone_number": mentors.phone_number,
                                       "full name": mentors.full_name})
+                print("----all users", all_users)
                 return all_users, 200
         else:
             mentor = Mentor.query.all()
