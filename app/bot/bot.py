@@ -29,7 +29,7 @@ class MentorBot(Resource):
                     for mentors in mentor:
                         all_users.append({"phone_number": mentors.phone_number,
                                           "full name": mentors.full_name})
-                    return all_users, 200
+                    return self.response(all_users), 200
 
             elif type(q_name) == list:
                 if len(q_name) == 5:
@@ -75,6 +75,13 @@ class MentorBot(Resource):
             return data['result']['parameters']['mentor_details']
         else:
             return "Sorry we didn't understand your query.", 404
+        
+    def response(self, all_users):
+        if len(all_users)<5:
+            response = "These are the top {} mentors.".format(len(all_users)) +" "+ all_users
+        else:
+            response = "These are the top 5 mentors." +" " + all_users[:5]
+        return response
 
 
 
